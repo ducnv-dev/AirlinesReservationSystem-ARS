@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="DB_ARS" Class="DB_ARSDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=(LocalDB)\v11.0;AttachDbFilename=|DataDirectory|\DB_ARS.mdf;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="DB_ARSConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.AIRLINE" Member="AIRLINEs">
+    <Type Name="AIRLINE">
+      <Column Name="AIRLINE_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="AIRLINE_CODE" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="AIRLINE_CITY_ID_START" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="AIRLINE_CITY_ID_STOP" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="AIRLINE_DISTANCE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="AIRLINE_STATUS" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="AIRLINE_FLIGHT" Member="FLIGHTs" ThisKey="AIRLINE_ID" OtherKey="FLIGHT_AIRLINE_ID" Type="FLIGHT" />
+      <Association Name="CITY_AIRLINE" Member="CITY" ThisKey="AIRLINE_CITY_ID_START" OtherKey="CITY_ID" Type="CITY" IsForeignKey="true" />
+      <Association Name="CITY_AIRLINE1" Member="CITY1" ThisKey="AIRLINE_CITY_ID_STOP" OtherKey="CITY_ID" Type="CITY" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.USERS" Member="USERs">
+    <Type Name="USER">
+      <Column Name="USERS_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="USERS_USERNAME" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="USERS_PASSWORD" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="USERS_FULLNAME" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="USER_EMAIL" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="USER_PHONE" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="USER_STATUS" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="USER_TICKET" Member="TICKETs" ThisKey="USERS_ID" OtherKey="TICKETS_USER_ID" Type="TICKET" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CITY" Member="CITies">
+    <Type Name="CITY">
+      <Column Name="CITY_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CITY_CODE" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CITY_NAME" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CITY_STATUS" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="CITY_AIRLINE" Member="AIRLINEs" ThisKey="CITY_ID" OtherKey="AIRLINE_CITY_ID_START" Type="AIRLINE" />
+      <Association Name="CITY_AIRLINE1" Member="AIRLINEs1" ThisKey="CITY_ID" OtherKey="AIRLINE_CITY_ID_STOP" Type="AIRLINE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.FLIGHT" Member="FLIGHTs">
+    <Type Name="FLIGHT">
+      <Column Name="FLIGHT_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FLIGHT_CODE" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="FLIGHT_PLANE_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FLIGHT_AIRLINE_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FLIGHT_DATE_START" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="FLIGHT_DATE_STOP" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="FLIGHT_PRICE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FLIGHT_TOTALSEARTS" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FLIGHT_STATUS" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="FLIGHT_TICKET" Member="TICKETs" ThisKey="FLIGHT_ID" OtherKey="TICKETS_FLIGHT_ID" Type="TICKET" />
+      <Association Name="AIRLINE_FLIGHT" Member="AIRLINE" ThisKey="FLIGHT_AIRLINE_ID" OtherKey="AIRLINE_ID" Type="AIRLINE" IsForeignKey="true" />
+      <Association Name="PLANE_FLIGHT" Member="PLANE" ThisKey="FLIGHT_PLANE_ID" OtherKey="PLANE_ID" Type="PLANE" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PLANE" Member="PLANEs">
+    <Type Name="PLANE">
+      <Column Name="PLANE_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="PLANE_CODE" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="PLANE_NAME" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="PLANE_TOTALSEATS" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="PLANE_STATUS" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="PLANE_FLIGHT" Member="FLIGHTs" ThisKey="PLANE_ID" OtherKey="FLIGHT_PLANE_ID" Type="FLIGHT" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TICKETS" Member="TICKETs">
+    <Type Name="TICKET">
+      <Column Name="TICKETS_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TICKETS_CODE" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="TICKETS_USER_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TICKETS_FLIGHT_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TICKETS_PASSPORT" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="TICKETS_PRICE" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="TICKETS_CUSTOME_FULLNAME" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="TICKETS_CUSTOMER_ADDRESS" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="TICKETS_CUSTOMER_PHONE" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="FLIGHT_TICKET" Member="FLIGHT" ThisKey="TICKETS_FLIGHT_ID" OtherKey="FLIGHT_ID" Type="FLIGHT" IsForeignKey="true" />
+      <Association Name="USER_TICKET" Member="USER" ThisKey="TICKETS_USER_ID" OtherKey="USERS_ID" Type="USER" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
